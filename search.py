@@ -88,37 +88,38 @@ def depthFirstSearch(problem):
     """
     "*** YOUR CODE HERE ***"
     from util import Stack
-    stack = Stack()
+    road = Stack()
+    pathRoad = Stack()
     startState = problem.getStartState()
     
     visited = []
     path = []
 
-    if (problem.isGoalState(startState)):
-        return path;
+    if problem.isGoalState(startState):
+        return path
 
-    stack.push((startState, []))    
+    road.push(startState)
+    pathRoad.push([])
     while (True):
-        if stack.isEmpty(): return []
+         if road.isEmpty(): return []
 
-        currentState, path = stack.pop()
+         currentState = road.pop()
+         path = pathRoad.pop()
 
-        visited.append(currentState)
+         visited.append(currentState)
 
-        if problem.isGoalState(currentState):
-            return path
+         if problem.isGoalState(currentState):
+             return path
 
-        successStates = problem.getSuccessors(currentState)
+         successors = problem.getSuccessors(currentState)
 
-        if successStates:
-            for state in successStates:
-                if state[0] not in visited:
+         if successors:
+             for child, direction, cost in successors:
+                 if child not in visited:
 
-                    newPath = path + [[state[1]]]
-                    stack.push((state[0], newPath))
-
-    
-        
+                     newPath = path + [direction]
+                     road.push(child)
+                     pathRoad.push(newPath)
 
     util.raiseNotDefined()
 
