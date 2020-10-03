@@ -18,7 +18,7 @@ Pacman agents (in searchAgents.py).
 """
 
 import util
-
+from util import *
 class SearchProblem:
     """
     This class outlines the structure of a search problem, but doesn't implement
@@ -61,7 +61,11 @@ class SearchProblem:
         """
         util.raiseNotDefined()
 
-
+class Path(object):
+    def __init__(self, position, directions, cost):
+        self.position = position
+        self.directions = directions
+        self.cost = cost
 def tinyMazeSearch(problem):
     """
     Returns a sequence of moves that solves tinyMaze.  For any other maze, the
@@ -159,7 +163,36 @@ def breadthFirstSearch(problem):
 def uniformCostSearch(problem):
     """Search the node of least total cost first."""
     "*** YOUR CODE HERE ***"
-    util.raiseNotDefined()
+    startState = problem.getStartState()
+    
+    #Initializing the queue and closed set    
+    queue = PriorityQueue()
+    startPath = Path(startState, [], 0)
+    queue.push(startPath,0)    
+    visited= []
+    
+    
+    
+    while not queue.isEmpty():
+        
+        node = queue.pop()
+        currentPosition = node.position
+        currentDirections = node.directions
+        currentCost = node.cost
+        if problem.isGoalState(currentPosition):
+            return currentDirections
+          
+            
+        if not currentPosition in visited:
+            successors = problem.getSuccessors(currentPosition)
+            for position, direction, cost in successors:
+                if not position in visited:
+                    newSuccessor = Path(position,currentDirections+[direction],currentCost+cost)
+                    queue.push(newSuccessor, currentCost+cost)
+            visited.append(currentPosition)
+
+    
+    return []
 
 def nullHeuristic(state, problem=None):
     """
@@ -171,6 +204,32 @@ def nullHeuristic(state, problem=None):
 def aStarSearch(problem, heuristic=nullHeuristic):
     """Search the node that has the lowest combined cost and heuristic first."""
     "*** YOUR CODE HERE ***"
+    startState = problem.getStartState()
+
+    queue = PriorityQueue()
+    startPath = Path(startState, [], 0)
+    queue.push(startPath, 0)
+    visited = []
+
+    while not queue.isEmpty():
+        node = queue.pop()
+        currentPosition = node.position
+        currentDirections = node.directions
+        currentCost = node.cost
+
+        if problem.isGoalState(currentPosition): return currentDirections
+
+        if not currentPosition in visited:
+            successors = problem.getSuccessors(currentPosition)
+            for position, direction, cost in successors:
+                if not position in visited: 
+                    newDirections = currentDirections + [direction]
+                    newCost = currentCost + cost;
+                    newHeuristic = heuristic(position, problem)
+                    totalCost = newCost + newHeuristic
+                    newPath = Path(position, newDirections, newCost)
+                    queue.push(newPath, totalCost)
+            visited.append(currentPosition)
     util.raiseNotDefined()
 
 
