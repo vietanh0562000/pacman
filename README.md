@@ -12,3 +12,5 @@ Multi_agent search
 - minimaxSearch: dùng đệ quy với các tham số state, agentIndex, depth. Đệ quy sẽ chạy với độ sâu depth, ứng với mỗi agent thì sẽ dùng min hoặc max để chọn ra phương án evaluation của các nút con (agentIndex = 0 là pacman ngược lại là ghost). 
 -alphabetaSearch: Có 2 hàm tương tự như minimax có thêm 2 tham số cho 2 hàm là a, b (alpha, beta) , mỗi lần tính evaluation được thì ta sẽ cập nhật cho a hoặc b, dựa vào a, b và các giá trị tính được trong nhánh ta sẽ quyết định được có cắt nhánh hay không
 -expectimax: Các con ghost không được thông minh quá nên thay vì dùng min( các giải pháp ) thì thay bằng công thức sum (các giải pháp) / (số lượng giải pháp)
+Classification
+-Em đi tham khảo được 3 câu ạ.
